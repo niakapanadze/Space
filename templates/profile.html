@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if profile["name"] == "jasurbeki" %}
+        <h1>This is Admin page</h1>
+    {% endif %}
+    <h2>Name: {{ profile["name"] }}</h2>
+    <h2>Surname: {{ profile["surname"] }}</h2>
+    <img src="/static/images/{{ profile['img'] }}">
+
+
+{% endblock %}
+

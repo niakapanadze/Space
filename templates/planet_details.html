@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ planet["title"] }} {% endblock %}
+
+{% block content %}
+<a href="/" class="nav-link"> ⬅️ back</a>
+<h1>Details about {{ planet["title"] }}</h1>
+<hr>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+        <div class="card mb-4" style="background-color: #212529">
+            <div class="text-center p-4" style="background-color: #000;">
+                <img src="/static/images/{{ planet['img'] }}" class="img-fluid" style="max-height: 350px;" alt="Planet Image">
+            </div>
+            <div class="card-body text-center">
+                <h2 class="card-title text-white">{{ planet["title"] }}</h2>
+                <p class="card-text text-muted"><i>{{ planet["second name"] }}</i></p>
+                <p class="card-text text-info">Color: {{ planet["color"] }}</p>
+                <hr style="width: 50%; margin: 1rem auto;">
+                <p class="card-text text-white fs-5">{{ planet["details"] }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

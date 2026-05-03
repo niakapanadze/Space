@@ -1,0 +1,10 @@
+body{
+    background-color: #050816;
+    color: white;
+}
+
+.card:hover{
+    box-shadow: 0 0 25px cyan;
+    transform: scale(1.03);
+    transition: 0.3s;
+}

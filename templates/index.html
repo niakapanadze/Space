@@ -1,0 +1,27 @@
+<!--base.html-თან დაკავშირება-->
+{% extends 'base.html' %}
+
+<!--base.html-ში გამოყოფილ ადგილას ჩვენთვის სასურველი საიტის სათაურის ჩასმა ჯინჯას ბლოკის მეშვეობით -->
+{% block title %} SPACE PAGE {% endblock %}
+
+<!--base.html-ში გამოყოფილ ადგილას ჩვენთვის სასურველი კონტენტის ჩასმა ჯინჯას ბლოკის მეშვეობით -->
+{% block content %}
+<h1>This is Space page</h1>
+<h1>Explore the Solar System</h1>
+<hr>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for planet in planets %}
+    <div class="col">
+        <div class="card h-100 bg-dark text-white border-secondary">
+            <img src="/static/images/{{ planet['img'] }}" class="card-img-top" alt="{{ planet['title'] }}">
+            <div class="card-body text-center">
+                <h5 class="card-title">{{ planet["title"] }}</h5>
+                <p class="card-text text-muted" style="font-style: italic">{{ planet["second name"] }}</p>
+                <a href="/planet/{{ planet['id'] }}" class="btn btn-info mt-auto px-5">See details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
