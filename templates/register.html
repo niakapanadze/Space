@@ -1,42 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body style = "background-color: #050816;">
-<h1>This is Register page</h1>
+<body style="background-color: #050816;">
+
+<h1>Registration Page</h1>
 <hr>
 <h2>If you don't have an account you have to register:</h2>
-<div class = "container d-flex justify-content-center align-items-center vh-100">
-    <div class = "card p-4 shadow-lg text-center text-dark" style = "width: 350px;">
-        <h2 class = "text-center mb-4">Registration</h2>
-            <div class = "mb-3">
-                <input type = "text" placeholder = "Username">
-            </div>
-            <div class = "mb-3">
-                <input type="email" placeholder="Email">
-            </div>
-            <div class = "mb-3">
-                <input type="number" placeholder="Age">
-            </div>
-            <div class = "mb-3">
-                <select>
-                    <option>Female</option>
-                    <option>Male</option>
-                </select>
-            </div>
-            <div class = "mb-3">
-                <input type = "password" placeholder = "Password">
-            </div>
-            <div class = "mb-3">
-                <input type="password" placeholder="Confirm password">
-            </div>
-            <div class = "mb-3">
-                <radio>
-                    <input type="checkbox">I am not a robot.
-                </radio>
-            </div>
-            <div class = "mb-3">
-                <button type = "submit" class = "btn btn-success">Register</button>
-            </div>
-    </div>
+<div class="container d-flex justify-content-center align-items-center">
+    <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-lg text-dark" style="width: 350px;">
+
+        {{ form.hidden_tag() }}
+        <h2 class="text-center mb-4">Registration</h2>
+
+        <div class="mb-3">
+            <label>Upload Profile Picture:</label>
+            {{ form.image(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.username(class="form-control", placeholder="Username") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.age(class="form-control", placeholder="Age") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.gender(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.password(class="form-control", placeholder="Password") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.confirm_password(class="form-control", placeholder="Confirm Password") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.register(class="btn btn-success w-100") }}
+        </div>
+    </form>
 </div>
+
 {% endblock %}

@@ -2,21 +2,33 @@
 
 {% block content %}
 <body style = "background-color: #050816;">
+
 <h1>This is Login page</h1>
 <hr>
 <h2>If you already have an account login here:</h2>
+
 <div class = "container d-flex justify-content-center align-items-center vh-100">
-    <div class = "card p-4 shadow-lg text-center text-dark" style = "width: 350px;">
+
+    <form method="POST" class="card p-4 shadow-lg text-center text-dark" style = "width: 350px;">
+
+        {{ form.hidden_tag() }}
+
         <h2 class = "text-center mb-4">Login</h2>
-            <div class = "mb-3">
-                <input type = "text" placeholder = "Username">
-            </div>
-            <div class = "mb-3">
-                <input type = "password" placeholder = "Password">
-            </div>
-            <div class = "mb-3">
-                <button type = "submit" class = "btn btn-success">Login</button>
-            </div>
-    </div>
+
+        <div class = "mb-3">
+            {{ form.username(class = "form-control", placeholder = form.username.label.text) }}
+        </div>
+
+        <div class = "mb-3">
+            {{ form.password(class = "form-control", placeholder = form.password.label.text) }}
+        </div>
+
+        <div class = "mb-3">
+            {{ form.login(class = "btn btn-success w-100") }}
+        </div>
+
+    </form>
+
 </div>
+
 {% endblock %}

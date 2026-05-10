@@ -1,6 +1,8 @@
+from forms import RegisterForm, LoginForm
 from flask import Flask, render_template
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "niaslay"
 
 profiles = [
     {"name": "jasurbeki", "surname": "iaxshiboevi", "img": "earth.jpg"},
@@ -33,9 +35,12 @@ def home():
     return render_template("index.html", planets=planets) # HTML-ისთვის ცვლადის გადაცემა
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        print("Login successful")
+    return render_template("login.html", form=form)
 
 
 @app.route("/about")
@@ -45,7 +50,10 @@ def about():
 
 @app.route("/profile/<int:profile_id>") # profile_id დინამიური ცვლადია, რომელიც int ტიპია (int:) ამ შემთხვევაში. default-ად სტრინგია
 def profile(profile_id):
-    profile = profiles[profile_id]
+    if profile_id < len(profiles):
+        profile = profiles[profile_id]
+        return render_template("profile.html", profile=profile)
+    return "Profile not found"
     return render_template("profile.html", profile=profile)
 
 
@@ -57,9 +65,24 @@ def view_planet_details(planet_id):
     return "Planet Not Found"
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    form = RegisterForm()
+    if form.validate_on_submit():
+        new_user = {
+            "name": form.username.data,
+            "age": form.age.data,
+            "gender": form.gender.data,
+        }
+        if form.image.data:
+            img_file = form.image.data
+            new_user["img"] = img_file.filename
+        else:
+            new_user["img"] = "pic.jpg"
+
+        profiles.append(new_user)
+        print(f"user {form.username.data} has been successfully registered!")
+    return render_template("register.html", form=form)
 
 
 @app.route("/genre/<category>") # < variable > დინამიური ცვლადის შესაქმნელად
