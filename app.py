@@ -1,5 +1,6 @@
 from forms import RegisterForm, LoginForm
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
+from os import path
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "niaslay"
@@ -74,14 +75,20 @@ def register():
             "age": form.age.data,
             "gender": form.gender.data,
         }
-        if form.image.data:
-            img_file = form.image.data
+
+        img_file = form.image.data
+
+        if img_file:
+            directory = path.join(app.root_path, "static", "images", img_file.filename)
+            img_file.save(directory)
             new_user["img"] = img_file.filename
         else:
             new_user["img"] = "pic.jpg"
 
         profiles.append(new_user)
         print(f"user {form.username.data} has been successfully registered!")
+        return redirect("/")
+
     return render_template("register.html", form=form)
 
 

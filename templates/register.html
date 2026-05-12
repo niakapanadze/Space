@@ -6,6 +6,14 @@
 <h1>Registration Page</h1>
 <hr>
 <h2>If you don't have an account you have to register:</h2>
+{% for errors in form.errors.values() %}
+    <div class = "alert alert-danger">
+        {% for error in errors %}
+            {{ error }}
+        {% endfor %}
+    </div>
+{% endfor %}
+
 <div class="container d-flex justify-content-center align-items-center">
     <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-lg text-dark" style="width: 350px;">
 
@@ -13,8 +21,8 @@
         <h2 class="text-center mb-4">Registration</h2>
 
         <div class="mb-3">
-            <label>Upload Profile Picture:</label>
-            {{ form.image(class="form-control") }}
+            <label>Upload Profile picture:</label>
+            {{ form.image(class = "form-control", accept = ".jpg, .jpeg, .png") }}
         </div>
 
         <div class="mb-3">
