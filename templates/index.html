@@ -13,10 +13,10 @@
     {% for planet in planets %}
     <div class="col">
         <div class="card h-100 bg-dark text-white border-secondary">
-            <img src="/static/images/{{ planet['img'] }}" class="card-img-top" alt="{{ planet['title'] }}">
+            <img src="/static/images/{{ planet.image }}" class="card-img-top" alt="{{ planet['title'] }}">
             <div class="card-body text-center">
-                <h5 class="card-title">{{ planet["title"] }}</h5>
-                <p class="card-text text-muted" style="font-style: italic">{{ planet["second name"] }}</p>
+                <h5 class="card-title">{{ planet.title }}</h5>
+                <p class="card-text text-muted" style="font-style: italic">{{ planet.second_name }}</p>
                 <a href="/planet/{{ planet['id'] }}" class="btn btn-info mt-auto px-5">See details</a>
             </div>
         </div>

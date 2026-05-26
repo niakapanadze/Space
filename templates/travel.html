@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} TRAVEL IN SPACE {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 bg-secondary p-4 rounded shadow">
+            <h2 class="text-center mb-4 text-white">🚀 Travel in space</h2>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="mb-3 text-white">
+                    {{ form.planet.label(class="form-label fw-bold") }}
+                    {{ form.planet(class="form-select") }}
+                </div>
+                <div class="mb-3 text-white">
+                    {{ form.vehicle.label(class="form-label fw-bold") }}
+                    {{ form.vehicle(class="form-select") }}
+                </div>
+                <div class="d-grid">
+                    {{ form.submit(class="btn btn-warning fw-bold") }}
+                </div>
+            </form>
+
+            {% if result %}
+                <div class="alert alert-success mt-4 text-center border-0" role="alert">
+                    <h4 class="alert-heading m-0 text-dark">{{ result }}</h4>
+                </div>
+            {% endif %}
+
+            <div class="text-center mt-3">
+                <a href="/" class="text-warning text-decoration-none">← Back to Solar System</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

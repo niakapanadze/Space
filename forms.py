@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField, IntegerField, RadioField, SubmitField
+from wtforms.fields import StringField, PasswordField, IntegerField, RadioField, SubmitField, SelectField
 from wtforms.validators import DataRequired, EqualTo, Length
 from flask_wtf.file import FileField, FileAllowed, FileSize
 
@@ -31,3 +31,27 @@ class LoginForm(FlaskForm):
         validators = [DataRequired()]
     )
     login = SubmitField("Login")
+
+
+class TravelForm(FlaskForm):
+    planet = SelectField("Where do you want to go?(you are not going for real):", choices = [
+        ("Mercury", "Mercury"),
+        ("Venus", "Venus"),
+        ("Earth", "Earth"),
+        ("Mars", "Mars"),
+        ("Jupiter", "Jupiter"),
+        ("Saturn", "Saturn"),
+        ("Uranus", "Uranus"),
+        ("Neptune", "Neptune"),
+        ("Pluto", "Pluto"),
+        ("Sun", "Sun"),
+        ("Moon", "Moon"),
+        ("Black hole", "Black hole")
+    ])
+
+    vehicle = SelectField("Choose your vehicle:", choices = [
+        ("airplane", "Airplane (900 km/h)"),
+        ("rocket", "Apollo 11 Spacecraft (39,000 km/h)"),
+        ("light", "Light (1,080,000,000 km/h)")
+    ])
+    submit = SubmitField("Calculate the time")
