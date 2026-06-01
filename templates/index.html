@@ -18,6 +18,10 @@
                 <h5 class="card-title">{{ planet.title }}</h5>
                 <p class="card-text text-muted" style="font-style: italic">{{ planet.second_name }}</p>
                 <a href="/planet/{{ planet['id'] }}" class="btn btn-info mt-auto px-5">See details</a>
+                {% if role == "admin" %}
+                    <a href="/delete_planet/{{ planet.id }}" class="btn btn-danger">Delete Planet</a>
+                    <a href="/update_planet/{{ planet.id }}" class="btn btn-success mt-2">Update Planet</a>
+                {% endif %}
             </div>
         </div>
     </div>

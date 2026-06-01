@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Planet Page</h1>
+
+    <div class="row justify-content-center">
+            {% for errors in form.errors.values() %}
+                <div class="alert alert-danger">
+                    {% for error in errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+        <form method="POST" enctype="multipart/form-data" class="col-6 p-5">
+            {{ form.hidden_tag() }}
+
+            <div class = "row mb-3">
+                <label class = "form-label fw-bold">Planet Picture</label>
+                {{ form.image(class = "form-control", accept = ".png, .jpg, .jpeg") }}
+            </div>
+
+            <div class = "row mb-3">
+                {{ form.title(class = "form-control", placeholder = form.title.label.text) }}
+            </div>
+
+            <div class = "row mb-3">
+                {{ form.color(class = "form-control", placeholder = form.color.label.text) }}
+            </div>
+
+            <div class = "row mb-3">
+                {{ form.second_name(class = "form-control", placeholder = form.second_name.label.text) }}
+            </div>
+
+            <div class = "row mb-3">
+                {{ form.distance_million_km(class = "form-control", placeholder = form.distance_million_km.label.text) }}
+            </div>
+
+            <div class = "row mb-3">
+                {{ form.details(class = "form-control", placeholder = form.details.label.text) }}
+            </div>
+
+            <div class = "row mt-4">
+                {{ form.submit(class = "btn btn-success w-100") }}
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

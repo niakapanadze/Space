@@ -55,3 +55,14 @@ class TravelForm(FlaskForm):
         ("light", "Light (1,080,000,000 km/h)")
     ])
     submit = SubmitField("Calculate the time")
+
+
+class PlanetForm(FlaskForm):
+    image = FileField("Upload Planet Picture", validators = [FileAllowed(["jpg", "jpeg", "png"], "მხოლოდ ფოტოები შეიძლება, მეგობარო!")])
+    title = StringField("Enter Planet Title", validators = [DataRequired()])
+    color = StringField("Enter Planet Color")
+    second_name = StringField("Enter Second Name")
+    distance_million_km = IntegerField("Enter Distance (Million KM)", validators = [DataRequired()])
+    details = StringField("Enter Planet Details", validators = [DataRequired()])
+
+    submit = SubmitField("Save this planet")
