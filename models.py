@@ -1,5 +1,18 @@
 from ext import db
+from sqlalchemy import ForeignKey
 
+class BaseModel:
+    def create(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @staticmethod
+    def save():
+        db.session.commit()
 class Planet(db.Model):
     __tablename__ = "planets"
 
@@ -20,3 +33,10 @@ class User(db.Model):
     gender = db.Column(db.String())
     password = db.Column(db.String(), nullable = False)
     image = db.Column(db.String(), default = "pic.jpg")
+
+class Review(db.Model, BaseModel):
+    __tablename__ = "reviews"
+
+    id = db.Column(db.Integer(), primary_key=True)
+    text = db.Column(db.String(), nullable=False)
+    planet_id = db.Column(ForeignKey("planets.id"))

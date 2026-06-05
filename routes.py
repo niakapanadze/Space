@@ -1,4 +1,4 @@
-from models import Planet, User
+from models import Planet, User, Review
 from ext import app, db
 from forms import RegisterForm, LoginForm, TravelForm, PlanetForm
 from flask import Flask, render_template, redirect
@@ -25,7 +25,7 @@ def home():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter(User.username == form.username.data).first()
         if user and user.password == form.password.data:
             print(f"Login successful for {user.username}!")
             return redirect("/")
@@ -52,7 +52,10 @@ def profile(profile_id):
 def view_planet_details(planet_id):
     planet = Planet.query.get(planet_id)
     if planet:
-        return render_template("planet_details.html", planet=planet)
+        reviews = Review.query.filter(Review.planet_id == planet_id).all()
+        return render_template("planet_details.html",
+                               planet=planet,
+                               reviews=reviews)
     return "Planet Not Found"
 
 @app.route("/register", methods=["GET", "POST"])
@@ -76,8 +79,8 @@ def register():
             image = filename
         )
 
-        db.session.add(new_user)
-        db.session.commit()
+        # db.session.add(new_user) db.session.commit() --- igivea rac:
+        new_user.create()
 
         print(f"User {form.username.data} has been successfully saved to the database!")
         return redirect("/")
@@ -98,7 +101,7 @@ def travel_simulator():
         selected_vehicle = form.vehicle.data
 
         # aq edzebs distance-s
-        planet = Planet.query.filter_by(title=selected_planet).first()
+        planet = Planet.query.filter(Planet.title == selected_planet).first()
 
         if planet:
             distance = planet.distance_million_km * 1000000
@@ -144,8 +147,8 @@ def add_planet():
             img.save(directory)
 
         # es database-shi aseivebs
-        db.session.add(new_planet)
-        db.session.commit()
+        #db.session.add(new_planet) db.session.commit() --- givea raas:
+        new_planet.create()
         return redirect("/")
 
     return render_template("add_planet.html", form=form)
@@ -179,7 +182,7 @@ def update_planet(planet_id):
             image.save(directory)
             planet.image = image.filename
 
-        db.session.commit()  # aseivebs rac shevcvalet imas
+        planet.save()  # aseivebs rac shevcvalet imas
         return redirect("/")
 
     return render_template("add_planet.html", form=form)
@@ -191,6 +194,6 @@ def delete_planet(planet_id):
     planet = Planet.query.get(planet_id)
 
     # vashorebt da mere vaseivebt cvlilebebs
-    db.session.delete(planet)
-    db.session.commit()
+    # db.session.delete(planet) db.session.commit() --- igivea rac:
+    planet.delete()
     return redirect("/")
