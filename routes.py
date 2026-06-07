@@ -1,18 +1,9 @@
 from models import Planet, User, Review
 from ext import app, db
 from forms import RegisterForm, LoginForm, TravelForm, PlanetForm
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, flash
+from flask_login import login_user, logout_user, login_required
 from os import path
-
-profiles = [
-    {"name": "jasurbeki", "surname": "iaxshiboevi", "img": "earth.jpg"},
-    {"name": "iago", "surname": "xvichia", "img": "cat.jpg"}
-]
-"""
-ლექსიკონიდან ინფორმაციის წამოღება:
-info = profiles[0] -> info არის ლექსიკონი
-print(info.get("name"), info["name"]) -> get method ან პირდაპირ ['key']-ის დახმარებით
-"""
 
 
 @app.route("/")
@@ -27,12 +18,17 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter(User.username == form.username.data).first()
         if user and user.password == form.password.data:
-            print(f"Login successful for {user.username}!")
+            login_user(user)
+            flash(f"Login successful for {user.username}!")
             return redirect("/")
         else:
-            print("No such user or the password is incorrect!")
+            flash("No such user or the password is incorrect!")
     return render_template("login.html", form=form)
 
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect("/")
 
 @app.route("/about")
 def about():
@@ -82,14 +78,10 @@ def register():
         # db.session.add(new_user) db.session.commit() --- igivea rac:
         new_user.create()
 
-        print(f"User {form.username.data} has been successfully saved to the database!")
+        flash(f"User {form.username.data} has been successfully saved to the database!")
         return redirect("/")
 
     return render_template("register.html", form=form)
-
-@app.route("/genre/<category>") # < variable > დინამიური ცვლადის შესაქმნელად
-def show_genre(category):
-    return render_template("genre.html", c=category)
 
 @app.route("/travel", methods=["GET", "POST"])
 def travel_simulator():
@@ -128,6 +120,7 @@ def travel_simulator():
 
 
 @app.route("/add_planet", methods=["GET", "POST"])
+@login_required
 def add_planet():
     form = PlanetForm()
     # tu gilaks daawira
@@ -149,12 +142,14 @@ def add_planet():
         # es database-shi aseivebs
         #db.session.add(new_planet) db.session.commit() --- givea raas:
         new_planet.create()
+        flash("Your planet has been successfully added!")
         return redirect("/")
 
     return render_template("add_planet.html", form=form)
 
 
 @app.route("/update_planet/<int:planet_id>", methods=["GET", "POST"])
+@login_required
 def update_planet(planet_id):
     # aq vedzebt planetas romlis shcvlac gvindaaaa
     planet = Planet.query.get(planet_id)
@@ -189,6 +184,7 @@ def update_planet(planet_id):
 
 
 @app.route("/delete_planet/<int:planet_id>")
+@login_required
 def delete_planet(planet_id):
     # vedzebt planets id-it
     planet = Planet.query.get(planet_id)
